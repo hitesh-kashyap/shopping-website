@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+<head>
+<title>JustBuy</title>
+<link rel="stylesheet" type="text/css" href="external.css">
+<link rel="stylesheet" type="text/css" href="form_details.css">
+<script type="text/javascript">
+	function validate_form()
+	{
+		var x= document.forms["form1"]["email"].value;
+		var y= document.forms["form1"]["pin"].value;
+		var z= document.forms["form1"]["mob"].value;
+
+		var atpos = x.indexOf("@");
+    		var dotpos = x.lastIndexOf(".");
+    		if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length) 
+		{
+        	alert("Not a valid e-mail address");
+        	return false;
+		}
+
+		if(y==null)
+		{
+		alert("pin is required.");
+		return false;
+		}
+		if(y.length>6)
+		{
+		
+		alert("pin must not be greater than 6!");
+		return false;
+		}
+
+		if(z=="" || z.length != 10)
+		{
+		alert("Mobile number entered is wrong!");
+		return false;
+		}
+
+		alert("Order placed Successfully!");
+	}
+function start()
+{
+	GetClock();
+	setInterval(GetClock,1000);
+	
+}
+var tmonth=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+
+function GetClock()
+{
+var d=new Date();
+var nmonth=d.getMonth(),ndate=d.getDate(),nyear=d.getYear();
+if(nyear<1000) nyear+=1900;
+
+var nhour=d.getHours(),nmin=d.getMinutes(),nsec=d.getSeconds(),ap;
+
+if(nhour==0){ap=" AM";nhour=12;}
+else if(nhour<12){ap=" AM";}
+else if(nhour==12){ap=" PM";}
+else if(nhour>12){ap=" PM";nhour-=12;}
+
+if(nmin<=9) nmin="0"+nmin;
+if(nsec<=9) nsec="0"+nsec;
+
+document.getElementById('clockbox').innerHTML=""+tmonth[nmonth]+" "+ndate+", "+nyear+" "+nhour+":"+nmin+":"+nsec+ap+"";
+}
+
+</script>
+</head>
+<body onload="start()">
+<div class="header" style="vertical-align:middle">
+<img src="logo.jpg" align="left" alt="logo" height="84">
+
+<br>
+</div>
+<div class="dropdown">
+  <button class="dropbtn">Electronics</button>
+  <div class="dropdown-content">
+    <a href="mobiles_final.html">Mobiles</a>
+    <a href="laptops_final.html">Laptops</a>
+    <a href="cameras_final.html">Cameras</a>
+  </div>
+ </div>
+<div class="dropdown">
+  <button class="dropbtn">Apparels</button>
+  <div class="dropdown-content">
+    <a href="mensapparels_final.html">Men</a>
+    <a href="womenapparels_final.html">Women</a>
+  </div>
+ </div>
+<div class="dropdown">
+  <button class="dropbtn">Shoes</button>
+  <div class="dropdown-content">
+    <a href="casualshoes_final.html">Casual Shoes</a>
+    <a href="formalshoes_final.html">Formal Shoes</a>
+    <a href="sportshoes_final.html">Sport Shoes</a>
+  </div>
+ </div>
+<hr>
+
+<div id="clockbox"></div><br>
+
+<hr>
+<br>
+<br>
+<p id="para">Please provide Shipping Details.</p>
+<div id="ship">
+  <form name="form1" onsubmit="return validate_form();" method="post">
+    First Name<br>
+    <input type="text" id="fname" name="firstname" placeholder="First Initials" maxlength="10">
+
+    Last Name<br>
+    <input type="text" id="lname" name="lastname" placeholder="Last Initials" maxlength="10">
+
+    Address<br>
+    <input type="text" id="address" name="address" placeholder="House No., Area, Locality, City, Country">
+     
+    Email Id<br>
+    <input type="email" id="address" name="email" placeholder="someone@example.com">
+     
+    Mobile no.<br>
+    <input type="number" id="mob" name="pin" placeholder="10 digit">
+
+    Pin Code<br>
+    <input type="number" id="pin" name="pin" placeholder="Pin Code">
+
+    Country<br>
+    <select id="country" name="country">
+      <option value="india">India</option>
+      <option value="australia">Australia</option>
+      <option value="canada">Canada</option>
+      <option value="usa">USA</option>
+    </select>
+     Any Comments:<br>
+    <textarea rows="10" cols="100"></textarea><br><br>
+    <input type="submit" value="Place Order">
+  </form>
+</div>
+<br><br>
+<center>
+
+</center>
+</fieldset>
+</form>
+</body>
+</html>

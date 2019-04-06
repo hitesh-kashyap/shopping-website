@@ -1,0 +1,289 @@
+<!doctype html>
+<html>
+<head>
+<title>JustBuy</title>
+<link rel="stylesheet" type="text/css" href="external.css">
+<script type="text/javascript">
+function start()
+{
+	GetClock();
+	setInterval(GetClock,1000);
+}
+var tmonth=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+
+function GetClock()
+{
+var d=new Date();
+var nmonth=d.getMonth(),ndate=d.getDate(),nyear=d.getYear();
+if(nyear<1000) nyear+=1900;
+
+var nhour=d.getHours(),nmin=d.getMinutes(),nsec=d.getSeconds(),ap;
+
+if(nhour==0){ap=" AM";nhour=12;}
+else if(nhour<12){ap=" AM";}
+else if(nhour==12){ap=" PM";}
+else if(nhour>12){ap=" PM";nhour-=12;}
+
+if(nmin<=9) nmin="0"+nmin;
+if(nsec<=9) nsec="0"+nsec;
+
+document.getElementById('clockbox').innerHTML=""+tmonth[nmonth]+" "+ndate+", "+nyear+" "+nhour+":"+nmin+":"+nsec+ap+"";
+}
+
+
+function setCookie(cname, cvalue) 
+{
+    var d = new Date();
+    d.setTime(d.getTime() + (30*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires+"; path=/";
+}
+
+function getCookie(cname) 
+{
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function checkCookie() 
+{
+    var user = getCookie("username");
+    if (user != "") {
+        alert("Welcome again " + user);
+    } else {
+        user = prompt("Please enter your name:", "");
+        if (user != "" && user != null) 
+	{
+            setCookie("username", user);
+        }
+    }
+	document.getElementById("Username").innerHTML="Welcome! <b>" + user + "</b> to \"JustBuy\" online shopping website. Happy Shopping :)"; 
+}
+
+        //create array that will hold all ordered products
+        var shoppingCart = [];
+        
+        //this function manipulates DOM and displays content of our shopping cart
+        function displayShoppingCart()
+{
+            var orderedProductsTblBody=document.getElementById("orderedProductsTblBody");
+	    
+	    var d = new Date();
+		
+            //ensure we delete all previously added rows from ordered products table
+            while(orderedProductsTblBody.rows.length>0) {
+                orderedProductsTblBody.deleteRow(0);
+            }
+                   
+            //variable to hold total price of shopping cart
+            var cart_total_price=0;
+            //iterate over array of objects
+            for(var product in shoppingCart){
+                //add new row      
+
+		var rowCount = orderedProductsTblBody.rows.length;
+
+
+                var row = orderedProductsTblBody.insertRow(rowCount);
+
+		var cell1 = row.insertCell(0);
+            var element1 = document.createElement("input");
+            element1.type = "checkbox";
+            element1.name="chkbox[]";
+            cell1.appendChild(element1);
+
+		var cell2 = row.insertCell(1);
+            cell2.innerHTML = rowCount + 1;
+
+		
+
+
+                //create three cells for product properties 
+                var cellName = row.insertCell(2);
+                var cellDescription = row.insertCell(3);
+                var cellPrice = row.insertCell(4);
+		
+
+                cellPrice.align="right";
+                //fill cells with values from current product object of our array
+                cellName.innerHTML = shoppingCart[product].Name;
+                cellDescription.innerHTML = shoppingCart[product].Description;
+                cellPrice.innerHTML = shoppingCart[product].Price;
+                cart_total_price+=shoppingCart[product].Price;
+            }
+            //fill total cost of our shopping cart 
+            document.getElementById("cart_total").innerHTML=cart_total_price;
+	    document.getElementById("date_of_cart").innerHTML="<b> Cart last updated on: </b>"+ d.toDateString()+"<b> at Time: </b>"+d.toLocaleTimeString();
+	    
+        }
+        
+        
+        function AddtoCart(name,description,price){
+           //Below we create JavaScript Object that will hold three properties you have mentioned:    Name,Description and Price
+           var singleProduct = {};
+           //Fill the product object with data
+           singleProduct.Name=name;
+           singleProduct.Description=description;
+           singleProduct.Price=price;
+           //Add newly created product to our shopping cart 
+           shoppingCart.push(singleProduct);
+           //call display function to show on screen
+           displayShoppingCart();
+           
+        }  
+
+function deleteRow(tableID) {
+            try {
+            var table = document.getElementById(tableID);
+            var rowCount = table.rows.length;
+            for(var i=0; i<rowCount; i++) 
+		{
+                var row = table.rows[i];
+                var chkbox = row.cells[0].childNodes[0];
+	   
+
+		if(null != chkbox && true == chkbox.checked) 
+		{
+                    table.deleteRow(i);
+		    shoppingCart.splice(i,1);
+                    rowCount--;
+                    i--;
+                }
+            }
+            }catch(e) {
+                alert(e);
+            }
+
+	displayShoppingCart();
+	
+        }
+</script>
+</head>
+<body onload="start()">
+<div class="header" style="vertical-align:middle">
+<img src="logo.jpg" align="left" alt="logo" height="84">
+<br>
+<form action="http://www.google.co.in">
+<input type="text" class="tftextinput2" name="search" placeholder="what makes you smile?">
+<input type="submit" class="tfbutton2" value="Search">
+</form>
+</div>
+<div class="dropdown">
+  <button class="dropbtn">Electronics</button>
+  <div class="dropdown-content">
+    <a href="mobiles_final.html">Mobiles</a>
+    <a href="laptops_final.html">Laptops</a>
+    <a href="cameras_final.html">Cameras</a>
+  </div>
+ </div>
+<div class="dropdown">
+  <button class="dropbtn">Apparels</button>
+  <div class="dropdown-content">
+    <a href="mensapparels_final.html">Men</a>
+    <a href="womenapparels_final.html">Women</a>
+  </div>
+ </div>
+<div class="dropdown">
+  <button class="dropbtn">Shoes</button>
+  <div class="dropdown-content">
+    <a href="casualshoes_final.html">Casual Shoes</a>
+    <a href="formalshoes_final.html">Formal Shoes</a>
+    <a href="sportshoes_final.html">Sport Shoes</a>
+  </div>
+ </div>
+<hr>
+<div id="clockbox"></div><br>
+<div id="Username"></div>
+<hr>
+<br>
+<br>
+
+<div class="parent" style="vertical-align:middle; text-align:center">
+<img src="phone1.jpg" alt="item1" align="center">
+<br><br>
+<p style="color:blue; font-size:120%;">Mobile phone 1<br></p>
+Best Buy Rs.31999/-<br>
+<input type="submit" Value="Add to Cart" onclick="AddtoCart('phone 1','smartphone 1',31999)">
+</div>
+
+<div class="parent" style="vertical-align:middle; text-align:center">
+<img src="phone2.jpg" alt="item1" align="center">
+<br><br>
+<p style="color:blue; font-size:120%;">Mobile Phone 2<br></p>
+Best Buy Rs.28999/-<br>
+<input type="submit" Value="Add to Cart" onclick="AddtoCart('Phone 2','smartphone 2',28999)">
+</div>
+
+<div class="parent" style="vertical-align:middle; text-align:center">
+<img src="phone3.png" alt="item1" align="center">
+<br><br>
+<p style="color:blue; font-size:120%;">Mobile Phone 3<br></p>
+Best Buy Rs.14999/-<br>
+<input type="submit" Value="Add to Cart" onclick="AddtoCart('Phone 3','smartphone 3',14999)">
+</div>
+
+<div class="parent" style="vertical-align:middle; text-align:center">
+<img src="phone4.png" alt="item1" align="center">
+<br><br>
+<p style="color:blue; font-size:120%;">Mobile Phone 4<br></p>
+Best Buy Rs.19999/-<br>
+<input type="submit" Value="Add to Cart" onclick="AddtoCart('Phone 4','smartphone 4',19999)">
+</div>
+
+<div class="parent" style="vertical-align:middle; text-align:center">
+<img src="phone5.jpg" alt="item1" align="center">
+<br><br>
+<p style="color:blue; font-size:120%;">Mobile Phone 5<br></p>
+Best Buy Rs.52999/-<br>
+<input type="submit" Value="Add to Cart" onclick="AddtoCart('Phone 5','smartphone 5',52999)">
+</div> 
+
+<div class="parent" style="vertical-align:middle; text-align:center">
+<img src="phone6.jpg" alt="item1" align="center">
+<br><br>
+<p style="color:blue; font-size:120%;">Mobile Phone 6<br></p>
+Best Buy Rs.47999/-<br>
+<input type="submit" Value="Add to Cart" onclick="AddtoCart('Phone 6','smartphone 6',47999)">
+</div> 
+
+
+<table cellpadding="4" cellspacing="4" border="1" id="orderedProductsTbl" width="100%" bottom="0" padding="4">
+	<thead>
+	<th colspan="5" align="center">Your Cart</th>
+	<tr>
+	<th></th>
+        <th>Item no. </th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        </tr>
+        </thead>
+<tbody id="orderedProductsTblBody">
+</tbody>
+<tfoot>
+	<tr>
+	<td colspan="2" align="center"><input class="tfbutton2" type="button" value="Delete" onclick="deleteRow('orderedProductsTblBody')" /></td>
+	<td>Total(in Rupees)</td>
+        <td colspan="2" align="right" id="cart_total"></td>
+        </tr>
+	<tr>
+	<td colspan="5" id="date_of_cart"></td>
+	</tr>
+</tfoot>
+</table>
+<br><br>
+<center>
+<input type="Submit" value="BUY NOW!" class="tfbutton2" onclick="buy_now.html">
+</center>
+</body>
+</html>
